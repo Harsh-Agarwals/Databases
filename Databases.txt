@@ -1,0 +1,460 @@
+Databases
+
+Databases are organized collection of data stored electronically in a computer system.
+Main works of databases are creating tables and databases, adding, deleting, updating, modifying, querying data.
+DBMS: Database Management Software
+
+Interaction with databases:
+Via coding (on a software) -> compile(interacts with db) -> query
+
+MySQL vs SQL:
+MySQL: RDBMS that uses SQL as its query language
+SQL Structured Query Language: Programming language (By IBM in 1970s) => Programming language to communicate and manipulated data in databases. Performs CRUD operation, querying, retrieving data, defining data, creating complex relations, controlling permissions, etc
+
+Types of Databases
+- Relational databases (stores data in rows and columns)
+"""
+Relational databases understands only SQL: Each table => has rows and columns, each column => has data type and name, each row => record of data
+"""
+  - MySQL
+  - PostgreSQL
+  - Microsoft SQL Server
+  - etc
+
+- Non Relational databases (data not stored in tables)
+- NoSQL databases (different formats)
+  - MongoDB (Document database) (JSON)
+  - Cassandra 
+  - Redis (Key-Value database) (key-value store)
+  - Graph databases (Neo4j) (nodes, edges, and properties)
+  - etc
+
+- Time Series databases
+- Object Oriented databases
+- In memory databases
+- etc
+
+ACID: Atomicity, Consistency, Isolation, Durability
+
+Atomicity: ensures that each transaction is treated as a single unit. So each transaction either fully gets done or not done. Eg. A bank transfer
+Consistency: There is no difference in the working of any of the unit. Rules are maintained
+Isolation: Each transactions are independent of each other.
+Durability: Ensuring each task/transaction gets committed, irrespective of success/failure. Means we should come to end to know the result, not hold up.
+
+Importances:
+- Data handling
+- Error handling
+- Reliability
+- Rules and order
+
+
+Basic SQL:
+- SQL Commands (DDL, DML, DCL, DQL, TCL)
+- DROP vs DELETE vs TRUNCATE
+- Data types (string/varchar, int, DATE, float/decimal, Boolean) IDENTITY Column
+- Contraints (PRIMARY and FOREIGN key)
+- Normatization in SQL (1NF, 2NF, etc)
+- OPERATORS (Arithmetic, logical, etc)
+- CASE statements/ nested statements
+- CLAUSES (Distinct, order by, etc)
+- INNER JOIN
+
+Intermediate SQL:
+- Group by and HAVING clause
+- Aggregate function (min, max, etc)
+- Sub queries
+- Order of Execution
+- Different types of joints, self join
+- CTE tables/ WITH clause
+- In-built functions
+- Window Function
+- Views
+
+Advanced SQL:
+- PIVOT Tables, CROSSTAB function
+- Recursive SQL queries
+- Materialized views
+- Stored procedures
+- User Defined Functions
+
+MySQL:
+======
+
+Storing databases: In servers => MySQL Servers: database server from where data is accessed, stored and managed
+MySQL Workbench: UI to interact with the databases.
+https://www.youtube.com/watch?v=hiS_mWZmmI0
+
+Methods:
+ - Command line
+ - MySQL workbench
+ - Using Python/JS/etc
+
+DATETIME: 'DDDD-MM-YY' , eg: SELECT * FROM table WHERE DATE>='2024-12-01'
+
+Primary Key: Uniquely identifies each row of the table. (Unique, non Null, immutable(can't be changed once defined), can be single column or group of columns
+
+CREATE TABLE customers (
+    customer_id INT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    email VARCHAR(100)
+);
+
+
+Foreign Key: A column in database table that creates a relationship between rows in two tables. Points to primary key of another table. Establish relationship and references. Can contains Null values if relationship is optional.
+
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    order_date DATE,
+    customer_id INT,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+Type of SQL commands:
+- DDL: Data Definition Language (Define the structure and schema of the database - CREATE, ALTER, DROP, TRUNCATE, RENAME)
+- DML: Data Manipulation Language (Manipulate data stored in the database - INSERT, UPDATE, DELETE)
+- DCL: Data Control Language (Deals with control and security of data within the database - GRANT, REVOKE)
+- DQL: Data Query Language (Retrieve data from the database - SELECT)
+- TCL: Transaction Control Language (Manage transactions in the database - COMMIT, ROLLBACK, SAVEPOINT)
+
+
+DROP vs DELETE vs TRUNCATE:
+--------------------------
+DROP: Deletes the entire table data, its indexes etc. (Irreversible)
+DELETE: Deletes particular records of the table based on a specific condition. (Conditional, can be reversed)
+TRUNCATE: Deletes all the data rows of the table but maintains the table structure for future use.
+
+Creation of Database:
+---------------------
+
+Database -> tables (having some rule (constrains) for the table)
+Schema -> table details (how the table is defined -> characteristics, attributes, names, data types, etc)
+
+Attributes: Characteristic(columns) of the table, eg. FirstName, LastName, RollNum, etc
+Record: Rows of the table, eg. Harsh, Agarwal, 71
+
+Constrains: Rules applied to columns to ensure data integrity and consistency.
+PRIMARY KEY constrains, SECONDARY KEY constrains, NON NULL constrains, UNIQUE constrains, CHECK constrains
+
+Log in to MySQL Server:
+mysql -u root -p 
+or
+MySQL -u username -p
+
+CREATE DATABASE databaseName;
+or
+CREATE DATABASE IF NOT EXISTS databaseName; (prevents error)
+
+USE databaseName; => Using this particular database
+
+///////////// EXAMPLE /////////////
+
+-- Create database only if it does not exist
+CREATE DATABASE IF NOT EXISTS mydatabase;
+
+-- Use the database
+USE mydatabase;
+
+-- Create table only if it does not exist
+CREATE TABLE IF NOT EXISTS customers (
+    customer_id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Drop table only if it exists
+DROP TABLE IF EXISTS customers;
+
+-- Drop database only if it exists
+DROP DATABASE IF EXISTS mydatabase;
+
+////////////////////////////////////
+
+SHOW DATABASES;  => list all the databases present in the server
+
+Rename a Database:
+In MySQL: => create a new database -> copy contents of old db to new db -> delete old db
+In PostgreSQL: => ALTER DATABASE old_database_name RENAME TO new_database_name;
+In SQL Server: => ALTER DATABASE old_database_name MODIFY NAME = new_database_name;
+
+Tables:
+=======
+
+SHOW TABLES; => list all the tables inside a database
+Multiple PRIMARY KEY in a table is not possible, however composite PRIMARY KEY is possible.
+
+Insert values into table:
+------------------------
+
+INSERT INTO tableName (column1, column2, column3)
+VALUES
+(1, 'harsh', 1999),
+(2, 'yash', 2002);
+
+Fixed length input: CHAR(16): length 16 fixed size input
+
+
+/////////////////example///////////////////
+SHOW DATABASES;
+CREATE DATABASE IF NOT EXISTS instagramDb;
+SHOW DATABASES;
+USE instagramDb;
+SHOW TABLES;
+CREATE TABLE IF NOT EXISTS users (
+	userName VARCHAR(50) NOT NULL,
+    userEmail VARCHAR(30) NOT NULL UNIQUE,
+    userId CHAR(8) PRIMARY KEY
+);
+
+CREATE TABLE IF NOT EXISTS post (
+	postId CHAR(8) PRIMARY KEY,
+    userId CHAR(8) NOT NULL,
+    caption VARCHAR(120)
+);
+
+SHOW TABLES;
+INSERT INTO users (userName, userEmail, userId)
+VALUES 
+('harsh_agarwals', 'harshagarwal9835@gmail.com', 'wh32he3h'),
+('intraday_trades', 'intradaytrades01@gmail.com', '2g6dhb43');
+
+INSERT INTO post (postId, userId, caption)
+VALUES
+('weh13b31', 'wh32he3h', 'visiting Ladakh'),
+('weh123bb', 'wh32he3h', 'Trespassign Tokyo'),
+('weh3hg44', '2g6dhb43', 'book profits');
+
+SELECT * FROM users;
+SELECT * FROM post;
+
+SELECT * FROM users
+INNER JOIN
+post
+ON users.userId = post.userId;
+
+DROP TABLE IF EXISTS post;
+SHOW TABLES;
+DROP TABLE IF EXISTS users;
+SHOW TABLES;
+
+SHOW DATABASES;
+DROP DATABASE IF EXISTS instagramDb;
+SHOW DATABASES;
+
+///////////////////////////////////////////
+
+Data-types:
+
+Numeric: INT, BIGINT, SMALLINT, FLOAT, DOUBLE, DECIMAL
+String: VARCHAR(n), CHAR(n), TEXT
+Datetime: DATE, TIME, DATETIME, TIMESTAMP
+Boolean: BOOLEAN
+Binary: BINARY(n), VARBINARY(n), BLOB
+
+INT: integer (-214 Cr to +214 Cr)
+BIGINT: big integer
+SMALLINT: small integer (-65k to +65k)
+
+FLOAT: 4-bit decimal
+DOUBLE: 8-bit decimal
+DECIMAL(p, s): for exact number representation p:precision, s:scale
+
+UNSIGNED: If we want only positive 
+
+Eg: CREATE TABLE salary(
+	salary INT UNSIGNED
+    );
+
+CHAR(n) (0-255 size): fixed length - waste of memory if <n size data provided
+VARCHAR(n) (0-255 size): variable length - no waste of memory if <n size data provided
+TEXT: variable length with no specific limit
+
+DATE: YYYY-MM-DD
+TIME: hh:mm:ss
+DATETIME/TIMESTAMP: YYYY-MM-DD hh:mm:ss
+
+BOOLEAN: storing true/false
+
+BINARY(n): fixed length binary data
+VARBINARY(n): variable length binary data
+BLOB(binary large object): for storing large amount of binary data (variable length)
+
+Binary stores 0/1
+
+Constraints in SQL: rules or conditions that must be satisfied by the data in the table
+List of contraints are:
+- PRIMARY KEY constraint: unique and non null identifier value for each record
+- FOREIGN KEY constraint: refers to primary key of an another table. Establish relationship between tables
+- NOT NULL constraint
+- UNIQUE constraint
+- CHECK constraint: ensures a condition to be true for each row
+- DEFAULT constraint: provides a default value if no value is specified
+
+CREATE TABLE table1(
+  age INT CHECK(age>=18),
+  enrolled BOOLEAN DEFAULT false
+);
+
+Other:
+- UNSIGNED 
+- AUTO_INCREMENT
+
+
+CREATE TABLE childtableName (
+childId INT PRIMARY KEY,
+baseId INT,
+FOREIGN KEY (baseId) REFERENCES baseTableName(baseId)
+);
+
+Foreign key also help in maintaining the referential integrity, meaning if some data is changed/deleted/updated in child table, that must gets updated in the parent table.
+
+///////////////////////////////////////
+
+CREATE TABLE IF NOT EXISTS employee (
+    empId INT,
+    empName VARCHAR(20),
+    departmentId INT,
+    PRIMARY KEY (empId),
+    FOREIGN KEY (departmentId) REFERENCES department(departmentId)
+);
+
+CREATE TABLE IF NOT EXISTS department (
+	departmentId INT PRIMARY KEY,
+    departmentName VARCHAR(30)
+);
+
+INSERT INTO employee(empId, empName, departmentId)
+VALUES
+(1, 'Harsh', 2),
+(2, 'Yash', 3),
+(3, 'Varsha', 2);
+
+INSERT INTO department(departmentId, departmentName)
+VALUES
+(2, 'Engineering'),
+(3, 'Management');
+
+////////////////////////////////////////
+
+Referenced Table: Table with primary key
+Referencing Table: Table with foreign key
+
+A table can have only 1 primary but can have multiple foreign keys.
+
+Cascading in Foreign Key:
+------------------------
+1. CASCADE: If a row in the parent table is deleted or updated, all related rows in the child table will be automatically updated or deleted.
+2. SET NULL: If a row in the parent table is deleted or updated, all the corresponding foreign key in the child table will be set to NULL
+3. RESTRICT OR NO ACTION: Blocks the modification or deletion of the referenced row in the parent table if related rows exists in the child table, thus maintaining referential integrity.
+
+ON DELETE CASCADE: If a row in parent table is deleted, all the corresponding rows in the child table will be automatically deleted as well.
+
+CREATE TABLE referencingTable (
+    column1 DATATYPE PRIMARY KEY,
+    column2 DATATYPE,
+    FOREIGN KEY (column1) REFERENCES baseTable(column1),
+    ON DELETE CASCADE
+);
+
+
+ON UPDATE CASCADE: If a row in parent table is updated, all the corresponding rows in the child table will be automatically updated as well.
+
+CREATE TABLE referencingTable (
+    column1 DATATYPE PRIMARY KEY,
+    column2 DATATYPE,
+    FOREIGN KEY (column1) REFERENCES baseTable(column1),
+    ON UPDATE CASCADE
+);
+
+
+*******************************
+********CRUD OPERATIONS********
+*******************************
+
+C - Create: CREATE
+R - Read: SELECT
+U - Update: UPDATE
+D - Delete: DELETE
+
+Insert:
+------
+
+INSERT INTO table_name (col1, col2)
+VALUES
+(val1, val2),
+(valx, valy);
+
+Update: Update records from a table
+------
+
+UPDATE table_name
+SET column_name = new_value, column_name = new_value
+WHERE column_name = xyz;
+
+Delete: Delete records from a table
+
+DELETE FROM table_name
+WHERE condition;
+
+SET SQL_SAFE_UPDATES=0; (in case of safe mode)
+
+WHERE: for filtering
+
+ALTER command: command used to change existing database objects like tables, indexex, or constrains (schemas)
+
+It involves addition or column, removal of column, modification of column, etc
+
+ADD COLUMNS:
+
+ALTER TABLE table_name
+ADD column_name data_type constrains;
+
+DROP COLUMN:
+
+ALTER TABLE table_name
+DROP COLUMN column_name;
+
+MODIFY clause:
+-------
+It is used with ALTER TABLE in SQL which allows us to change the definition or properties of an existing column in a table.
+
+ALTER TABLE table_name
+MODIFY column_name newDataType;
+
+CHANGE THE NAME OF EXISTING COLUMN:
+---------------------------------
+ALTER TABLE table_name
+CHANGE old_column_name new_column_name newDataType;
+
+RENAME: renaming the column, index, table, etc
+
+ALTER TABLE table_name;
+RENAME COLUMN old_column_name TO new_column_name;
+
+
+Renaming table: RENAME TABLE old_table_name TO new_table_name;
+Renaming database: RENAME DATABASE old_database_name TO new_database_name;
+
+Truncate Command:
+===============
+
+TRUNCATE TABLE table_name; removes all the entries of the table, maintaining its structure.
+
+DISTINCT: for selecting distinct column from the table.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
