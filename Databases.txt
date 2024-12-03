@@ -444,6 +444,129 @@ TRUNCATE TABLE table_name; removes all the entries of the table, maintaining its
 
 DISTINCT: for selecting distinct column from the table.
 
+Operators in SQL:
+----------------
+
+- +, -, /, *, %
+- AND
+- OR
+- NOT
+
+- >, <, >=, <=, !=, = 
+- IN: SELECT * FROM table_name WHERE column IN ('A', 'B');
+- IS NULL
+- IS NOT NULL: SELECT * FROM table_name WHERE column IS NOT NULL;
+- BETWEEN : SELECT * FROM employees WHERE salary BETWEEN 100000 AND 300000;
+
+LIKE and Wildcard operators:
+==========================
+%: matches any sequence of zero or more characters.
+_: matches single character.
+
+SELECT * FROM table WHERE name LIKE '%A';
+SELECT * FROM table WHERE name LIKE '_%A';
+
+
+Clauses in SQL: tools/conditions that makes queries more specific or decide what data to fetch.
+----------
+
+- WHERE: Conditional
+- GROUP BY
+- HAVING
+- ORDER BY: Sorting the results in ascending or descending order.
+- LIMIT: Limits the number of rows returned
+
+SELECT *
+FROM table_name
+CLAUSE condition;
+
+SELECT *
+FROM table_name
+WHERE age>20
+ORDER BY age DESC
+LIMIT 5;
+
+Aggregate functions: performs operations on a set of rows and returns a single value summarizing the data.
+------------------
+
+- COUNT: Count number of rows or number of non null values in a column
+	SELECT count(column_name) FROM table WHERE age>=20;
+- SUM: Returns sum of all values
+	SELECT sum(salary) FROM employees;
+- AVG: Returns average of all values
+	SELECT avg(salary) FROM employees;
+- MIN: find smallest value
+- MAX: find largest value 
+- GROUP_CONCAT
+
+
+Group By and Having:
+===============
+
+Group By: Group the data on the basis of similar rows (categorize data). It organizes data into groups on which calculations can be performed.
+
+SELECT col, AVG(column_name)
+FROM table_name
+GROUP BY col;
+
+Having: Work with GROUP BY as a conditionals. (Filter grouped data)
+
+SELECT col, AVG(column_name)
+FROM table_name
+GROUP BY col
+HAVING condition;
+
+RENAMING OUTPUT COLUMN:
+
+SELECT col AS new_name
+FROM table_name;
+
+
+WHERE v/s HAVING:
+===========
+
+WHERE
+- Used with SELECT, UPDATE, INSERT commands
+- SELECT * FROM table WHERE condition;
+
+HAVING
+- Used with GROUP BY clause and AGGREGATE functions
+- SELECT col1, AVG(col2) FROM table GROUP BY column HAVING condition;
+
+Order of SQL commands:
+===========
+
+SELECT
+DISTINCT, AGGREGATE FUNCTION
+FROM 
+WHERE
+GROUP BY
+HAVING
+ORDER BY
+LIMIT
+
+Joins in SQL:
+------
+
+Used to combine two or more tables in SQL based on related or shared or common column between tables.
+
+- INNER JOIN
+- LEFT JOIN / LEFT OUTER JOIN
+- RIGHT JOIN / RIGHT OUTER JOIN
+- FULL JOIN / FULL OUTER JOIN
+- SELF JOIN
+- CROSS JOIN
+
+Is Foreign Key important for performing joins?
+- Joins are simply performed based on columns that establish relationship between tables, be it foreign key column or any other column. So, FK is not necessary for joins.
+
+
+
+
+
+
+
+
 
 
 
