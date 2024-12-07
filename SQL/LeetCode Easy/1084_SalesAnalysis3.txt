@@ -1,0 +1,15 @@
+# Write your MySQL query statement below
+SELECT DISTINCT(p.product_id), p.product_name
+FROM Product AS p
+INNER JOIN
+Sales AS s
+ON p.product_id = s.product_id
+WHERE 
+s.product_id NOT IN (
+    SELECT DISTINCT(product_id)
+    FROM Sales
+    WHERE sale_date
+    NOT BETWEEN DATE('2019-01-01') AND DATE('2019-03-31')
+)
+AND s.sale_date
+BETWEEN DATE('2019-01-01') AND DATE('2019-03-31')

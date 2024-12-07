@@ -1,0 +1,13 @@
+# Write your MySQL query statement below
+SELECT ff.activity_date AS day, COUNT(ff.user_id) AS active_users
+FROM (
+    SELECT *
+    FROM (
+        SELECT *
+        FROM Activity
+        WHERE activity_date 
+        BETWEEN DATE('2019-07-27') - INTERVAL 29 DAY AND DATE('2019-07-27')
+    ) AS f
+    GROUP BY f.activity_date, f.user_id
+) AS ff
+GROUP BY ff.activity_date;
