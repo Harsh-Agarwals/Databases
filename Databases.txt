@@ -1,5 +1,9 @@
 Databases
 
+Good Questions:
+- https://leetcode.com/problems/sales-person/
+
+
 Databases are organized collection of data stored electronically in a computer system.
 Main works of databases are creating tables and databases, adding, deleting, updating, modifying, querying data.
 DBMS: Database Management Software
@@ -275,6 +279,22 @@ DATE: YYYY-MM-DD
 TIME: hh:mm:ss
 DATETIME/TIMESTAMP: YYYY-MM-DD hh:mm:ss
 
+=======================
+==  GETTING LAST DAY ==
+
+recordDate - INTERVAL 1 DAY
+
+////////
+# Write your MySQL query statement below
+SELECT w1.id
+FROM Weather AS w1
+LEFT JOIN
+Weather AS w2
+ON w1.recordDate - INTERVAL 1 DAY = w2.recordDate
+WHERE w1.temperature>w2.temperature;
+//////
+=======================
+
 BOOLEAN: storing true/false
 
 BINARY(n): fixed length binary data
@@ -521,6 +541,14 @@ RENAMING OUTPUT COLUMN:
 SELECT col AS new_name
 FROM table_name;
 
+GROUP BY FOR 2 COLUMNS:
+-----
+
+SELECT *
+FROM table_name
+GROUP BY col1, col2
+HAVING condition;
+
 
 WHERE v/s HAVING:
 ===========
@@ -559,6 +587,259 @@ Used to combine two or more tables in SQL based on related or shared or common c
 
 Is Foreign Key important for performing joins?
 - Joins are simply performed based on columns that establish relationship between tables, be it foreign key column or any other column. So, FK is not necessary for joins.
+
+INNER JOIN:
+-------
+
+SELECT *
+FROM table_name1
+INNER JOIN table_name2
+ON table_name1.prop = table_name2.prop
+
+LEFT/RIGHT OUTER JOIN:
+--------
+
+SELECT *
+FROM table_name1
+LEFT JOIN table_name2
+ON table_name1.prop = table_name2.prop
+
+FULL JOIN:
+---------
+Returns matching row of both the left and right table and also includes all rows from both the tables even if they don't have matching rows. If no match, null values are returned for the column values of missing table.
+
+In MySQL, there is no direct way to use full join, so we combine LEFT JOIN, RIGHT JOIN and UNION
+
+
+/////////////////////////////
+SELECT *
+FROM table_name1
+INNER JOIN table_name2
+ON table_name1.prop = table_name2.prop
+
+UNION
+
+SELECT *
+FROM table_name1
+LEFT JOIN table_name2
+ON table_name1.prop = table_name2.prop
+/////////////////////////////
+
+CROSS JOIN:
+---------
+It combines each row of the first table with every row of the second table.
+
+SELECT *
+FROM table_1
+CROSS JOIN table_2;
+
+Resultant table: m(table1 row size) x n(table2 row size)
+
+SELF JOIN:
+---------
+It is a type of join where a table is joined with itself. It is a type of inner join.
+
+SELECT column1, column2
+FROM table_name AS t1
+SELF JOIN table_name AS t2
+ON t1.column_name = t2.column_name;
+
+////////////////Example//////////////
+
+INSERT INTO employees (id, namex, mentorId)
+VALUES
+(1, 'Harsh', 3),
+(2, 'Yash', 1),
+(3, 'Himanshu', 1),
+(4, 'Priti', Null);
+
+SELECT *
+FROM employees;
+
+SELECT e1.id, e1.namex, e1.mentorId, e2.namex AS mentor
+FROM employees AS e1
+JOIN employees AS e2
+ON e1.mentorId = e2.id;
+
+/////////////////////////////////////
+
+Exclusive Joins in SQL:
+-----------------
+
+Exclusive: excluding something
+Join: combining 2 tables
+
+It is exclusive of the overlap rows.
+
+Left Exclusive Join: Left Join - overlap
+
+SELECT *
+FROM table_one
+LEFT JOIN
+table_two
+ON table_one.col = table_two.col
+WHERE table_two.col IS NULL;
+
+Right Exclusive Join: Right Join - overlap
+
+SELECT *
+FROM table_one
+RIGHT JOIN
+table_two
+ON table_one.col = table_two.col
+WHERE table_one.col IS NULL;
+
+Full Exclusive Join: Full Join - overlap
+
+SELECT *
+FROM table_one
+LEFT JOIN
+table_two
+ON table_one.col = table_two.col
+WHERE table_two.col IS NULL
+
+UNION
+
+SELECT *
+FROM table_one
+RIGHT JOIN
+table_two
+ON table_one.col = table_two.col
+WHERE table_one.col IS NULL;
+
+
+//////////////
+SELECT *
+FROM corpemp
+RIGHT JOIN
+department
+ON corpemp.departmentId = department.departmentId
+WHERE corpemp.departmentId IS NULL;
+//////////////
+
+UNION operator:
+--------
+
+Combine the result of """2 or more""" SELECT queries into a single result set and gives unique rows by removing the duplicate rows.
+- Each SELECT command retrieved data must have same number of columns
+- Data type in columns of table retrieved from SELECT command must match
+- Columns should be listed in same order across all SELECT statements
+
+SELECT col1, col2
+FROM table1
+UNION
+SELECT col1, col2
+FROM table2;
+
+
+UNION ALL operator:
+---------
+
+Combine the result of """2 or more""" SELECT queries into a single result set and gives all the rows by not removing the duplicate rows.
+- Same rules as UNION are applied
+
+SELECT col1, col2
+FROM table1
+UNION ALL
+SELECT col1, col2
+FROM table2;
+
+
+SQL Subquery/inner query/nested query:
+===================================
+
+SQL subquery: Query nested with another SQL statement. Used whenever we wanted to retrieve data based on the result of another query.
+
+Using Subquery:
+
+- Using with SELECT, UPDATE, INSERT, DELETE: SELECT *, (subquery) FROM table;
+- Using with FROM: SELECT * FROM subquery;
+- Using with WHERE clause to filted data based on conditions: SELECT * FROM table WHERE column_name OPERATOR (subquery);
+
+LIMIT:
+-----
+
+LIMIT n: To retrieve the top n rows from the table
+
+LIMIT m, n: 
+ - m: number of rows to skip from the beginning
+ - n: number of rows to retrieve after skipping
+
+n-th Highest salary:
+-----
+
+SELECT *
+FROM Salary
+ORDER BY salary DESC
+LIMIT n-1, n;
+
+STORED PROCEDURES:
+----------------
+
+It is like a function. Stored procedures are used to store SQL commands under a specific name, and are called later.
+
+Creating the procedure:
+CREATE PROCEDURE procedureName()
+BEGIN
+Query;
+END;
+
+CALL procedureName;  Calling the procedure
+
+Eg:
+
+CREATE PROCEDURE getAllOrderDetailsById(IN id int) 
+BEGIN
+SELECT * FROM table_name
+WHERE id = id;
+END;
+
+
+Delimiter:
+-----
+
+Tells where my query is going to end
+
+DELIMITER / (Tells to end at /)
+
+Creating the procedure:
+CREATE PROCEDURE procedureName()
+BEGIN
+Query;
+END / (ends here)
+
+DELEIMITER ; (Sets ending back to ;)
+
+VIEWS:
+------
+Views are virtual tables in SQL. It provides filtered view of data for the security purpose.
+
+CREATE VIEW viewName AS
+query;
+
+// See data in view
+SELECT * FROM viewName;
+
+// Drop view
+DROP VIEW IF EXISTS viewName;
+
+
+IFNULL:
+-----
+
+SELECT ISNULL(Query, output) AS name;
+
+IFNULL takes 2 arguments: Query: Which if returns null, prints the second argument (output).
+
+ROUND:
+----
+
+ROUND(col_name, 0): Round decimal to 0 places (i.e. returns INT)
+
+
+
+
+
 
 
 
