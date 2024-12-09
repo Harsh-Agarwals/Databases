@@ -1,0 +1,16 @@
+# Write your MySQL query statement below
+SELECT DISTINCT(f.N1) AS ConsecutiveNums
+FROM (
+    SELECT L1_id, L2_id, l3.id AS L3_id, N1, N2, l3.num AS N3
+    FROM (
+        SELECT l1.id AS L1_id, l2.id AS L2_id, l1.num AS N1, l2.num AS N2
+        FROM Logs as l1
+        INNER JOIN
+        Logs AS l2
+        ON l2.id-1 = l1.id
+    ) AS l
+    INNER JOIN
+    Logs AS l3
+    ON l3.id-1 = l.L2_id
+) AS f
+WHERE f.N1 = f.N2 AND f.N2 = f.N3;

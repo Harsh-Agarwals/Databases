@@ -1,0 +1,14 @@
+# Write your MySQL query statement below
+SELECT s1.score, s2.ranks AS `rank`
+FROM Scores AS s1
+LEFT JOIN
+(
+    SELECT *, ROW_NUMBER() OVER(ORDER BY s.score DESC) AS ranks
+    FROM (
+        SELECT *
+        FROM Scores
+        GROUP BY score
+    ) AS s
+) AS s2
+ON s1.score = s2.score
+ORDER BY s1.score DESC;
