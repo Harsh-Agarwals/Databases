@@ -1,0 +1,19 @@
+# Write your MySQL query statement below
+SELECT ROUND(SUM(I.tiv_2016),2) AS tiv_2016
+FROM (
+    SELECT *
+    FROM Insurance AS i1
+    WHERE tiv_2015 IN (
+        SELECT tiv_2015
+        FROM Insurance AS i2
+        WHERE i2.pid != i1.pid
+    )
+) AS i
+RIGHT JOIN
+(
+    SELECT *
+    FROM Insurance
+    GROUP BY lat, lon
+    HAVING COUNT(*)=1
+) AS ii
+ON i.pid = ii.pid

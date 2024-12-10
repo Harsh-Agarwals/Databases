@@ -773,6 +773,14 @@ FROM Salary
 ORDER BY salary DESC
 LIMIT n-1, n;
 
+IN functions:
+-----
+
+DECLARE offset INT;
+SET offset = N-1;
+
+later: LIMIT offset, m;
+
 STORED PROCEDURES:
 ----------------
 
@@ -837,7 +845,26 @@ ROUND:
 ROUND(col_name, 0): Round decimal to 0 places (i.e. returns INT)
 
 
+Advanced topics:
+- IDENTITY column
+- NORMALIZATION
+- CASE and IF statements
+- WINDOW functions
+- CTE table/WITH clause
+- String functions
+- Date functions
+- Recursive SQL queries
+- PIVOT table/CROSSTAB functions
+- Materialized View
+- User defined functions
 
+
+RENAMING reserved keyword:
+
+`keyword`
+
+SELECT *, ROW_NUMBER() OVER(ORDER BY score DESC) AS `rank`
+FROM ...
 
 
 
